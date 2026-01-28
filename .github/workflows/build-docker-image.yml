@@ -54,6 +54,7 @@ jobs:
             type=raw,value=${{ github.event.inputs.tag }},enable=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' }}
             # Dev tag for pushes to main
             type=raw,value=dev-{{sha}},enable=${{ github.event_name == 'push' }}
+            type=raw,value=latest,enable=${{ github.event_name == 'push' }}
             # manual workflow without tag (use 'latest')
             type=raw,value=latest,enable=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag == '' }}
 
