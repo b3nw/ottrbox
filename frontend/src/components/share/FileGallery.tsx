@@ -36,7 +36,7 @@ export const FileGallery = ({ files, share }: FileGalleryProps) => {
         children: (
           <Stack align="stretch" spacing="md">
             <TextInput
-              ref={(node) => (inputRef = node)}
+              ref={(node) => { inputRef = node; }}
               variant="filled"
               value={link}
               readOnly
