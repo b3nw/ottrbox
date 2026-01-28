@@ -313,9 +313,12 @@ export default {
   // Dropzone.tsx
   "upload.dropzone.title": "Upload files",
   "upload.dropzone.description":
-    "Drag'n'drop files here to start your share. We only accept files up to {maxSize} in total.",
+    "Drag'n'drop files here to start your share, or paste images with Ctrl+V (Cmd+V on Mac). We only accept files up to {maxSize} in total.",
   "upload.dropzone.notify.file-too-big":
     "Your files exceed the maximum share size of {maxSize}.",
+  "upload.dropzone.notify.imagePasted": "Image pasted successfully",
+  "upload.dropzone.notify.imagesPasted": "{count} images pasted successfully",
+  "upload.dropzone.notify.noImagesInClipboard": "No images found in clipboard",
 
   // FileList.tsx
   "upload.filelist.name": "Name",
