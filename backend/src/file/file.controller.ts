@@ -21,7 +21,7 @@ import * as mime from "mime-types";
 
 @Controller("shares/:shareId/files")
 export class FileController {
-  constructor(private fileService: FileService) {}
+  constructor(private fileService: FileService) { }
 
   @Post()
   @SkipThrottle()
@@ -70,18 +70,26 @@ export class FileController {
     @Res({ passthrough: true }) res: Response,
     @Param("shareId") shareId: string,
     @Param("fileId") fileId: string,
-    @Query("download") download = "true",
+    @Query("download") downloadParam?: string,
   ) {
     const file = await this.fileService.get(shareId, fileId);
 
+    const mimeType =
+      mime?.lookup?.(file.metaData.name) || "application/octet-stream";
+    const isImage = mimeType.startsWith("image/");
+
+    // Determine download behavior:
+    // - If download param is explicitly set, use that
+    // - Otherwise, images default to inline (false), other files to download (true)
+    const shouldDownload = (downloadParam ?? String(!isImage)) === "true";
+
     const headers = {
-      "Content-Type":
-        mime?.lookup?.(file.metaData.name) || "application/octet-stream",
+      "Content-Type": mimeType,
       "Content-Length": file.metaData.size,
       "Content-Security-Policy": "sandbox",
     };
 
-    if (download === "true") {
+    if (shouldDownload) {
       headers["Content-Disposition"] = contentDisposition(file.metaData.name);
     } else {
       headers["Content-Disposition"] = contentDisposition(file.metaData.name, {
